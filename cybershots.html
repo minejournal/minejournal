@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cybershots</title>
-      <link rel="preload" href="SFONDO.webp" as="image">
+    <link rel="preload" href="SFONDO.webp" as="image">
     <style>
         @font-face {
             font-family: 'Dejavu';
@@ -75,7 +75,7 @@
             max-height: 95vh; /* Maximum height relative to viewport height */
             background: #fff; /* Background color */
             border: 1px solid #ddd; /* Border color */
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 1);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2); /* Adjusted shadow for better performance */
             display: none;
             z-index: 2000;
             object-fit: contain; /* Ensures aspect ratio is maintained */
@@ -143,6 +143,9 @@
     const imageWidth = images[0].offsetWidth + marginRight; // Image width including margin
     let scrollSpeed = 0;
     let isScrolling = false;
+    let lastScrollTime = 0;
+    const throttleDelay = 50; // milliseconds, reduced for quicker response
+    const scrollAmount = 250; // Amount to scroll on arrow key press, increased for faster scrolling
 
     function cloneImages() {
         const clonedImages = images.map(img => img.cloneNode(true));
@@ -151,18 +154,17 @@
     }
 
     function smoothScroll() {
-        if (Math.abs(scrollSpeed) > 0.1) {
+        if (Math.abs(scrollSpeed) > 0.5) { // Increased threshold for smoother scroll
             gallery.scrollLeft += scrollSpeed;
-            scrollSpeed *= 0.95; // Gradual stopping
+            scrollSpeed *= 0.9; // Increased rate of gradual stopping
             requestAnimationFrame(smoothScroll);
         } else {
             isScrolling = false;
         }
 
+        // Continuous scrolling
         const scrollWidth = gallery.scrollWidth;
         const containerWidth = gallery.offsetWidth;
-
-        // Handle continuous scrolling
         if (gallery.scrollLeft >= scrollWidth / 2) {
             gallery.scrollLeft -= scrollWidth / 2;
         } else if (gallery.scrollLeft < 0) {
@@ -182,8 +184,12 @@
     }
 
     function handleScroll(event) {
+        const now = Date.now();
+        if (now - lastScrollTime < throttleDelay) return;
+        lastScrollTime = now;
+
         event.preventDefault();
-        scrollSpeed += (event.deltaY || event.deltaX) * 0.1; // Adjust scroll sensitivity
+        scrollSpeed += (event.deltaY || event.deltaX) * 0.2; // Increased scroll sensitivity
 
         if (!isScrolling) {
             isScrolling = true;
@@ -191,8 +197,28 @@
         }
     }
 
+    function handleKeyPress(event) {
+        if (event.key === 'ArrowLeft') {
+            gallery.scrollLeft -= scrollAmount; // Increased scroll amount
+        } else if (event.key === 'ArrowRight') {
+            gallery.scrollLeft += scrollAmount; // Increased scroll amount
+        }
+        // Optional: Update center image when scrolling via keyboard
+        const leftEdge = gallery.scrollLeft;
+        const containerWidth = gallery.offsetWidth;
+        const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
+        const adjustedIndex = (centerIndex + images.length) % images.length;
+        const currentImage = images[adjustedIndex];
+
+        if (currentImage) {
+            centerImage.src = currentImage.src;
+            centerImage.style.display = 'block';
+        }
+    }
+
     cloneImages();
     document.addEventListener('wheel', handleScroll, { passive: false });
+    document.addEventListener('keydown', handleKeyPress); // Listen for keydown events
 
     function initializeCenterImage() {
         const containerWidth = gallery.offsetWidth;

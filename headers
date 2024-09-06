@@ -1,0 +1,15 @@
+# Cache images, CSS, JS for one year
+/assets/*
+  Cache-Control: public, max-age=31536000
+
+# Cache fonts for one year
+/fonts/*
+  Cache-Control: public, max-age=31536000
+
+# Shorter cache for HTML files
+/*.html
+  Cache-Control: public, max-age=600
+
+# Cache API responses for 5 minutes
+/api/*
+  Cache-Control: public, max-age=300

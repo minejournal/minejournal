@@ -6,28 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cybershots</title>
     <style>
-
-   @font-face {
+        @font-face {
             font-family: 'Dejavu';
             src: url('Dejavu.ttf') format('truetype');
         }
-
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         html, body {
-            margin: 0;
-            padding: 0;
             height: 100%;
             width: 100%;
             overflow: hidden; /* Prevents default scrollbars */
-        }
-        body {
             font-family: Arial, sans-serif;
-            overflow: hidden; /* Prevents default scrollbars */
+        }
+
+        body {
             position: relative;
             background-image: url('SFONDO.jpg'); /* Background image for the entire page */
             background-size: cover;
@@ -44,7 +41,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: transparent; /* Background color */
         }
 
         .gallery {
@@ -52,7 +48,7 @@
             gap: 10px; /* Space between images */
             overflow: hidden; /* Hides scrollbar */
             white-space: nowrap; /* Ensures images stay in a single line */
-            will-change: scroll; /* Optimizes scrolling performance */
+            will-change: scroll-position; /* Optimizes scrolling performance */
         }
 
         .gallery img {
@@ -78,13 +74,13 @@
             max-height: 95vh; /* Maximum height relative to viewport height */
             background: #fff; /* Background color */
             border: 1px solid #ddd; /* Border color */
-            box-shadow: 0 24px 48px rgba(0,0,0,1);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 1);
             display: none;
             z-index: 2000;
             object-fit: contain; /* Ensures aspect ratio is maintained */
         }
 
-  .right-edge-text {
+        .right-edge-text {
             position: fixed;
             top: 47%;
             right: 50px;
@@ -96,11 +92,7 @@
             color: black;
             font-size: 16px;
             font-family: 'Dejavu', monospace;
-           
         }
-
-     
-   
     </style>
 </head>
 <body>
@@ -140,7 +132,6 @@
 
 <div class="right-edge-text">
     <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>
-    
 </div>
 
 <script>
@@ -153,7 +144,6 @@
     let isScrolling = false;
 
     function cloneImages() {
-        const imageCount = images.length;
         const clonedImages = images.map(img => img.cloneNode(true));
         gallery.append(...clonedImages);
         gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));

@@ -4,260 +4,263 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cybershots</title>
-    <link rel="preload" href="SFONDO.webp" as="image">
+    <title>Portfolio</title>
     <style>
         @font-face {
             font-family: 'Dejavu';
             src: url('Dejavu.ttf') format('truetype');
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        @font-face {
+            font-family: 'HandelGothic';
+            src: url('HandelGothic.ttf') format('truetype');
         }
 
-        html, body {
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-            background-color: black;
+        body {
+            margin: 0;
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Enables Flexbox layout */
+            justify-content: center; /* Centers content horizontally */
+            align-items: center; /* Centers content vertically */
+            perspective: 1000px;
+            background-color: #F3F2ED;
+            background-image: url(''); /* Add your image URL here */
+            background-size: cover; /* Cover the entire viewport */
+            background-repeat: no-repeat; /* Prevents repeating the background image */
+            background-position: center; /* Center the background image */
+            font-family: Arial, sans-serif; /* Fallback font for better text rendering */
         }
 
         .gallery-container {
-            position: fixed;
-            top: 1%;
-            width: 100vw;
-            height: 12vh;
+            position: relative;
+            width: 100%;
             overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
         .gallery {
             display: flex;
-            gap: 10px;
-            overflow: hidden;
+            overflow-x: auto;
+            scroll-behavior: smooth;
             white-space: nowrap;
-            will-change: scroll-position;
+            position: relative;
         }
 
         .gallery img {
-            width: 100px;
-            height: 66px;
-            object-fit: cover;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            margin-right: 10px;
+            max-width: 100%;
+            height: auto;
+            transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transitions for effects */
         }
 
         .gallery img:hover {
-            transform: scale(1.05);
+            transform: translateY(-10px); /* Float up on hover */
+            filter: blur(1.5px); /* Blur effect on hover */
         }
 
         .center-image {
-            position: fixed;
+            display: block;
+            max-width: 100%;
+            height: auto;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 80vw;
-            max-height: 80vh;
-            background: #fff;
-            border: 1px solid #ddd;
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
-            display: none;
-            z-index: 2000;
-            object-fit: contain;
+            z-index: 2; /* Make sure the center image is on top */
         }
 
-        .right-edge-text {
-            position: fixed;
-            bottom: 10px;
-            width: 100%; /* Full width to allow centering */
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.5);
-            text-align: center; /* Center-align text */
-            color: white;
-            font-size: 14px;
+        .small-image {
+            width: 48px; /* Desktop icon size */
+            height: 48px; /* Desktop icon size */
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1; /* Make sure small images are below the center image */
+        }
+
+        .small-image.left {
+            left: 10px; /* Adjust as needed */
+        }
+
+        .small-image.right {
+            right: 10px; /* Adjust as needed */
+        }
+
+        .text-container {
+            position: absolute;
+            right: 45px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            font-size: 16px;
             font-family: 'Dejavu', monospace;
-            z-index: 2100;
+            z-index: 0;
+        }
+
+        .highlight {
+            color: #FF8C00; /* Orange color for highlighted text */
         }
 
         @media (max-width: 768px) {
+            .text-container {
+                position: static;
+                margin-top: 20px;
+                text-align: center;
+                width: 100%;
+                padding: 0 10px;
+                font-size: 14px;
+            }
+
             .gallery img {
-                width: 80px;
-                height: 52px;
+                width: 100%;
             }
-            .center-image {
-                max-width: 90vw;
-                max-height: 70vh;
-            }
-            .right-edge-text {
-                font-size: 12px;
-                padding: 8px;
+
+            .small-image {
+                width: 32px; /* Smaller size for mobile */
+                height: 32px; /* Smaller size for mobile */
             }
         }
     </style>
 </head>
 <body>
-
-<div class="gallery-container">
-    <div class="gallery" id="gallery">
-              <img src="1.JPG" alt="Image 1">
-        <img src="2.JPG" alt="Image 2">
-        <img src="3.JPG" alt="Image 3">
-        <img src="4.JPG" alt="Image 4">
-        <img src="5.JPG" alt="Image 5">
-        <img src="6.JPG" alt="Image 6">
-        <img src="7.JPG" alt="Image 7">
-        <img src="8.JPG" alt="Image 8">
-        <img src="9.JPG" alt="Image 9">
-        <img src="10.JPG" alt="Image 10">
-        <img src="11.JPG" alt="Image 11">
-        <img src="12.JPG" alt="Image 12">
-        <img src="13.JPG" alt="Image 13">
-        <img src="14.JPG" alt="Image 14">
-        <img src="15.JPG" alt="Image 15">
-        <img src="16.JPG" alt="Image 16">
-        <img src="17.JPG" alt="Image 17">
-        <img src="18.JPG" alt="Image 18">
-        <img src="19.JPG" alt="Image 19">
-        <img src="20.JPG" alt="Image 20">
-        <img src="21.JPG" alt="Image 21">
-        <img src="22.JPG" alt="Image 22">
-        <img src="23.JPG" alt="Image 23">
-        <img src="24.JPG" alt="Image 24">
-        <img src="25.JPG" alt="Image 25">
+    <div class="gallery-container">
+        <div class="gallery" id="gallery">
+            <img src="image1.jpg" alt="Image 1">
+            <img src="image2.jpg" alt="Image 2">
+            <img src="image3.jpg" alt="Image 3">
+            <!-- Add more images as needed -->
+        </div>
+        <img src="left-icon.png" class="small-image left" alt="Left Icon">
+        <img src="right-icon.png" class="small-image right" alt="Right Icon">
+        <img id="center-image" class="center-image" src="" alt="Center Image">
     </div>
+
+    <div class="text-container">
+        <span class="highlight">Durante M.</span> b. 1991
+        <br> <a href="mailto:mine.journal.eu@gmail.com">mine.journal.eu@gmail.com</a>
+        <br> <a href="https://www.instagram.com/expressoyeah" target="_blank" rel="noopener noreferrer">instagram.com/<span class="highlight">expressoyeah</span></a>
+        <br> <a href="https://www.samezoblo.com" target="_blank" rel="noopener noreferrer">zine</a>
+        <br> <a href="https://minejournal.substack.com" target="_blank" rel="noopener noreferrer">blog</a>
+        <br>bio
     </div>
-</div>
 
-<img id="center-image" class="center-image" src="" alt="Center Image">
-
-<div class="right-edge-text">
-    <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>
-</div>
-</body>
     <script>
-const gallery = document.getElementById('gallery');
-const centerImage = document.getElementById('center-image');
-const images = Array.from(gallery.children);
-const marginRight = 10;
-const imageWidth = images[0].offsetWidth + marginRight;
-let scrollSpeed = 0;
-let isScrolling = false;
-let lastScrollTime = 0;
-const throttleDelay = 50;
+        const gallery = document.getElementById('gallery');
+        const centerImage = document.getElementById('center-image');
+        const images = Array.from(gallery.children);
+        const marginRight = 10;
+        const imageWidth = images[0].offsetWidth + marginRight;
+        let scrollSpeed = 0;
+        let isScrolling = false;
+        let lastScrollTime = 0;
+        const throttleDelay = 50;
 
-function cloneImages() {
-    const clonedImages = images.map(img => img.cloneNode(true));
-    gallery.append(...clonedImages);
-    gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
-}
-
-function smoothScroll() {
-    if (Math.abs(scrollSpeed) > 0.1) {
-        gallery.scrollLeft += scrollSpeed;
-        scrollSpeed *= 0.95;
-        requestAnimationFrame(smoothScroll);
-    } else {
-        isScrolling = false;
-    }
-
-    const scrollWidth = gallery.scrollWidth;
-    const containerWidth = gallery.offsetWidth;
-    if (gallery.scrollLeft >= scrollWidth / 2) {
-        gallery.scrollLeft -= scrollWidth / 2;
-    } else if (gallery.scrollLeft < 0) {
-        gallery.scrollLeft += scrollWidth / 2;
-    }
-
-    const leftEdge = gallery.scrollLeft;
-    const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
-    const adjustedIndex = (centerIndex + images.length) % images.length;
-    const currentImage = images[adjustedIndex];
-
-    if (currentImage) {
-        centerImage.src = currentImage.src;
-        centerImage.style.display = 'block';
-    }
-}
-
-function handleScroll(event) {
-    const now = Date.now();
-    if (now - lastScrollTime < throttleDelay) return;
-    lastScrollTime = now;
-
-    event.preventDefault();
-    scrollSpeed += (event.deltaY || event.deltaX) * 0.1;
-
-    if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(smoothScroll);
-    }
-}
-
-function handleTouchStart(event) {
-    if (event.touches.length > 0) {
-        this.startX = event.touches[0].pageX;
-        event.preventDefault();
-    }
-}
-
-function handleTouchMove(event) {
-    if (event.touches.length > 0) {
-        const touch = event.touches[0];
-        const deltaX = touch.pageX - this.startX;
-        this.startX = touch.pageX;
-        scrollSpeed += deltaX * 0.1;
-        event.preventDefault();
-
-        if (!isScrolling) {
-            isScrolling = true;
-            requestAnimationFrame(smoothScroll);
+        function cloneImages() {
+            const clonedImages = images.map(img => img.cloneNode(true));
+            gallery.append(...clonedImages);
+            gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
         }
-    }
-}
 
-function handleArrowKeys(event) {
-    if (event.key === 'ArrowLeft') {
-        scrollSpeed = -5;
-    } else if (event.key === 'ArrowRight') {
-        scrollSpeed = 5;
-    }
+        function smoothScroll() {
+            if (Math.abs(scrollSpeed) > 0.1) {
+                gallery.scrollLeft += scrollSpeed;
+                scrollSpeed *= 0.95;
+                requestAnimationFrame(smoothScroll);
+            } else {
+                isScrolling = false;
+            }
 
-    if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(smoothScroll);
-    }
-}
+            const scrollWidth = gallery.scrollWidth;
+            const containerWidth = gallery.offsetWidth;
+            if (gallery.scrollLeft >= scrollWidth / 2) {
+                gallery.scrollLeft -= scrollWidth / 2;
+            } else if (gallery.scrollLeft < 0) {
+                gallery.scrollLeft += scrollWidth / 2;
+            }
 
-cloneImages();
+            const leftEdge = gallery.scrollLeft;
+            const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
+            const adjustedIndex = (centerIndex + images.length) % images.length;
+            const currentImage = images[adjustedIndex];
 
-window.addEventListener('load', () => {
-    document.addEventListener('wheel', handleScroll, { passive: false });
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('keydown', handleArrowKeys);
-});
+            if (currentImage) {
+                centerImage.src = currentImage.src;
+                centerImage.style.display = 'block';
+            }
+        }
 
-function initializeCenterImage() {
-    const containerWidth = gallery.offsetWidth;
-    const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
-    const adjustedIndex = (initialIndex + images.length) % images.length;
-    const initialImage = images[adjustedIndex];
+        function handleScroll(event) {
+            const now = Date.now();
+            if (now - lastScrollTime < throttleDelay) return;
+            lastScrollTime = now;
 
-    if (initialImage) {
-        centerImage.src = initialImage.src;
-        centerImage.style.display = 'block';
-    }
-}
+            event.preventDefault();
+            scrollSpeed += (event.deltaY || event.deltaX) * 0.05;
 
-initializeCenterImage();
+            if (!isScrolling) {
+                isScrolling = true;
+                requestAnimationFrame(smoothScroll);
+            }
+        }
+
+        function handleTouchStart(event) {
+            if (event.touches.length > 0) {
+                this.startX = event.touches[0].pageX;
+                event.preventDefault();
+            }
+        }
+
+        function handleTouchMove(event) {
+            if (event.touches.length > 0) {
+                const touch = event.touches[0];
+                const deltaX = touch.pageX - this.startX;
+                this.startX = touch.pageX;
+                scrollSpeed += deltaX * 0.1;
+                event.preventDefault();
+
+                if (!isScrolling) {
+                    isScrolling = true;
+                    requestAnimationFrame(smoothScroll);
+                }
+            }
+        }
+
+        function handleTouchEnd() {
+            scrollSpeed = 0; // Stop scrolling when touch ends
+        }
+
+        function handleArrowKeys(event) {
+            if (event.key === 'ArrowLeft') {
+                scrollSpeed = -5;
+            } else if (event.key === 'ArrowRight') {
+                scrollSpeed = 5;
+            }
+
+            if (!isScrolling) {
+                isScrolling = true;
+                requestAnimationFrame(smoothScroll);
+            }
+        }
+
+        cloneImages();
+
+        window.addEventListener('load', () => {
+            document.addEventListener('wheel', handleScroll, { passive: false });
+            document.addEventListener('touchstart', handleTouchStart, { passive: false });
+            document.addEventListener('touchmove', handleTouchMove, { passive: false });
+            document.addEventListener('touchend', handleTouchEnd, { passive: false }); // Stop scrolling on touch end
+            document.addEventListener('keydown', handleArrowKeys);
+        });
+
+        function initializeCenterImage() {
+            const containerWidth = gallery.offsetWidth;
+            const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
+            const adjustedIndex = (initialIndex + images.length) % images.length;
+            const initialImage = images[adjustedIndex];
+
+            if (initialImage) {
+                centerImage.src = initialImage.src;
+                centerImage.style.display = 'block';
+            }
+        }
+
+        initializeCenterImage();
     </script>
-
-</body>
-</html>

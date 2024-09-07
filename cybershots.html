@@ -23,7 +23,7 @@
             width: 100%;
             overflow: hidden;
             font-family: Arial, sans-serif;
-            background-color: black; /* Set the background color to black */
+            background-color: black;
         }
 
         .gallery-container {
@@ -58,13 +58,12 @@
             transform: scale(1.05);
         }
 
-        /* Center Image */
         .center-image {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 80vw; /* Adjust maximum size for better mobile display */
+            max-width: 80vw;
             max-height: 80vh;
             background: #fff;
             border: 1px solid #ddd;
@@ -76,19 +75,17 @@
 
         .right-edge-text {
             position: fixed;
-            bottom: 10px; /* Position text at the bottom to avoid overlaying the gallery */
-            right: 10px;
-            max-width: 90vw; /* Make text responsive */
+            bottom: 10px;
+            width: 100%; /* Full width to allow centering */
             padding: 10px;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            text-align: left;
-            color: white; /* Set text color to white for better contrast */
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center; /* Center-align text */
+            color: white;
             font-size: 14px;
             font-family: 'Dejavu', monospace;
-            z-index: 2100; /* Ensure text appears above other elements */
+            z-index: 2100;
         }
 
-        /* Media query for mobile adjustments */
         @media (max-width: 768px) {
             .gallery img {
                 width: 80px;
@@ -109,7 +106,7 @@
 
 <div class="gallery-container">
     <div class="gallery" id="gallery">
-      <img src="1.JPG" alt="Image 1">
+              <img src="1.JPG" alt="Image 1">
         <img src="2.JPG" alt="Image 2">
         <img src="3.JPG" alt="Image 3">
         <img src="4.JPG" alt="Image 4">
@@ -153,7 +150,7 @@
     let scrollSpeed = 0;
     let isScrolling = false;
     let lastScrollTime = 0;
-    const throttleDelay = 100; // milliseconds
+    const throttleDelay = 50; // Reduced delay to make scrolling more responsive
 
     function cloneImages() {
         const clonedImages = images.map(img => img.cloneNode(true));
@@ -226,10 +223,28 @@
         }
     }
 
+    function handleArrowKeys(event) {
+        if (event.key === 'ArrowLeft') {
+            scrollSpeed = -5; // Adjust for left arrow
+        } else if (event.key === 'ArrowRight') {
+            scrollSpeed = 5; // Adjust for right arrow
+        }
+
+        if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(smoothScroll);
+        }
+    }
+
     cloneImages();
-    document.addEventListener('wheel', handleScroll, { passive: false });
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    // Add event listeners
+    window.addEventListener('load', () => {
+        document.addEventListener('wheel', handleScroll, { passive: false });
+        document.addEventListener('touchstart', handleTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('keydown', handleArrowKeys); // For keyboard navigation
+    });
 
     function initializeCenterImage() {
         const containerWidth = gallery.offsetWidth;

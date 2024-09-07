@@ -72,6 +72,25 @@
             z-index: 2000;
             object-fit: contain;
         }
+        .edge-image {
+            position: fixed;
+            width: 48px; /* Desktop icon size */
+            height: 32px; /* Desktop icon size */
+            object-fit: cover;
+            z-index: 1000;
+        }
+
+        .left-edge-image {
+            left: calc(50% - 65px); /* Adjust to align with center image */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .right-edge-image {
+            right: calc(50% - 65px); /* Adjust to align with center image */
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
         .right-edge-text {
             position: fixed;
@@ -136,6 +155,9 @@
 </div>
 
 <img id="center-image" class="center-image" src="" alt="Center Image">
+    <img src="sinistra.png" alt="Left Edge Icon" class="edge-image left-edge-image">
+<img src="destra.png" alt="Right Edge Icon" class="edge-image right-edge-image">
+
 
 <div class="right-edge-text">
     <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>

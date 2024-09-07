@@ -140,9 +140,9 @@
 <div class="right-edge-text">
     <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>
 </div>
-
-<script>
-   const gallery = document.getElementById('gallery');
+</body>
+    <script>
+const gallery = document.getElementById('gallery');
 const centerImage = document.getElementById('center-image');
 const images = Array.from(gallery.children);
 const marginRight = 10;
@@ -192,7 +192,7 @@ function handleScroll(event) {
     lastScrollTime = now;
 
     event.preventDefault();
-    scrollSpeed += (event.deltaY || event.deltaX) * 0.05;
+    scrollSpeed += (event.deltaY || event.deltaX) * 0.1;
 
     if (!isScrolling) {
         isScrolling = true;
@@ -257,8 +257,7 @@ function initializeCenterImage() {
 }
 
 initializeCenterImage();
-
-</script>
+    </script>
 
 </body>
 </html>

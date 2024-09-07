@@ -105,7 +105,7 @@
             z-index: 2100;
         }
 
-        @media (max-width: 768px) {
+  @media (max-width: 768px) {
             .gallery img {
                 width: 80px;
                 height: 52px;
@@ -117,6 +117,14 @@
             .right-edge-text {
                 font-size: 12px;
                 padding: 8px;
+            }
+            .edge-image {
+                width: 36px; /* Smaller icon size for mobile */
+                height: 24px; /* Smaller icon size for mobile */
+            }
+            .left-edge-image, .right-edge-image {
+                left: calc(50% - 70px); /* Adjust for smaller icons */
+                right: calc(50% - 70px); /* Adjust for smaller icons */
             }
         }
     </style>

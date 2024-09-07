@@ -28,12 +28,13 @@
             background-size: cover; /* Cover the entire viewport */
             background-repeat: no-repeat; /* Prevents repeating the background image */
             background-position: center; /* Center the background image */
-            overflow: hidden; /* Prevents scrollbars */
+            font-family: Arial, sans-serif; /* Fallback font for better text rendering */
         }
 
         .container {
-            position: relative; /* Allows positioning text on top of the image */
             text-align: center; /* Centers text horizontally */
+            position: relative; /* Needed for absolute positioning of child elements */
+            z-index: 1; /* Ensures container content appears on top */
         }
 
         img {
@@ -55,14 +56,14 @@
         }
 
         .text-container {
-            position: absolute; /* Allows text to be positioned relative to the container */
+            position: absolute; /* Allows text to be positioned relative to the viewport */
             right: 45px; /* Distance from the right edge */
             top: 50%; /* Center vertically */
             transform: translateY(-50%); /* Adjust for vertical centering */
             color: #333; /* Dark color for text */
             font-size: 16px; /* Adjust font size as needed */
             font-family: 'Dejavu', monospace;
-            z-index: 1; /* Ensure text is on top */
+            z-index: 0; /* Ensure text does not overlap the image */
         }
 
         .highlight {
@@ -71,17 +72,16 @@
 
         @media (max-width: 768px) {
             .text-container {
-                position: absolute; /* Ensure text is on top of the image */
-                top: 50%; /* Center vertically */
-                left: 50%; /* Center horizontally */
-                transform: translate(-50%, -50%); /* Center text */
-                right: auto; /* Remove right positioning */
-                padding: 10px; /* Add some padding for better readability */
-                background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-                color: #FFF; /* White text for contrast */
-                font-size: 14px; /* Smaller font size for mobile */
-                width: 90%; /* Adjust width for mobile */
-                text-align: center; /* Center-align text */
+                position: static; /* Reset absolute positioning */
+                margin-top: 20px; /* Space between the image and the text */
+                text-align: center; /* Center-align text on mobile */
+                width: 100%; /* Full width on mobile */
+                padding: 0 10px; /* Padding for mobile view */
+                font-size: 14px; /* Adjust font size for smaller screens */
+            }
+
+            img {
+                width: 100%; /* Make image responsive */
             }
         }
     </style>
@@ -94,14 +94,15 @@
         <div class="additional-text">
             SOOC Cybershots
         </div>
-        <div class="text-container">
-            <span class="highlight">Durante M.</span> b. 1991
-            <br> <a href="mailto:mine.journal.eu@gmail.com">mine.journal.eu@gmail.com</a>
-            <br> <a href="https://www.instagram.com/expressoyeah" target="_blank" rel="noopener noreferrer">instagram.com/<span class="highlight">expressoyeah</span></a>
-            <br> <a href="https://www.samezoblo.com" target="_blank" rel="noopener noreferrer">zine</a>
-            <br> <a href="https://minejournal.substack.com" target="_blank" rel="noopener noreferrer">blog</a>
-            <br>bio
-        </div>
+    </div>
+
+    <div class="text-container">
+        <span class="highlight">Durante M.</span> b. 1991
+        <br> <a href="mailto:mine.journal.eu@gmail.com">mine.journal.eu@gmail.com</a>
+        <br> <a href="https://www.instagram.com/expressoyeah" target="_blank" rel="noopener noreferrer">instagram.com/<span class="highlight">expressoyeah</span></a>
+        <br> <a href="https://www.samezoblo.com" target="_blank" rel="noopener noreferrer">zine</a>
+        <br> <a href="https://minejournal.substack.com" target="_blank" rel="noopener noreferrer">blog</a>
+        <br>bio
     </div>
 </body>
 </html>

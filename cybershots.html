@@ -142,123 +142,122 @@
 </div>
 
 <script>
-    const gallery = document.getElementById('gallery');
-    const centerImage = document.getElementById('center-image');
-    const images = Array.from(gallery.children);
-    const marginRight = 10; // Space between images
-    const imageWidth = images[0].offsetWidth + marginRight; // Image width including margin
-    let scrollSpeed = 0;
-    let isScrolling = false;
-    let lastScrollTime = 0;
-    const throttleDelay = 50; // Reduced delay to make scrolling more responsive
+   const gallery = document.getElementById('gallery');
+const centerImage = document.getElementById('center-image');
+const images = Array.from(gallery.children);
+const marginRight = 10;
+const imageWidth = images[0].offsetWidth + marginRight;
+let scrollSpeed = 0;
+let isScrolling = false;
+let lastScrollTime = 0;
+const throttleDelay = 50;
 
-    function cloneImages() {
-        const clonedImages = images.map(img => img.cloneNode(true));
-        gallery.append(...clonedImages);
-        gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
+function cloneImages() {
+    const clonedImages = images.map(img => img.cloneNode(true));
+    gallery.append(...clonedImages);
+    gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
+}
+
+function smoothScroll() {
+    if (Math.abs(scrollSpeed) > 0.1) {
+        gallery.scrollLeft += scrollSpeed;
+        scrollSpeed *= 0.95;
+        requestAnimationFrame(smoothScroll);
+    } else {
+        isScrolling = false;
     }
 
-    function smoothScroll() {
-        if (Math.abs(scrollSpeed) > 0.1) {
-            gallery.scrollLeft += scrollSpeed;
-            scrollSpeed *= 0.9; // Gradual stopping, adjusted for better mobile feel
-            requestAnimationFrame(smoothScroll);
-        } else {
-            isScrolling = false;
-        }
-
-        const scrollWidth = gallery.scrollWidth;
-        const containerWidth = gallery.offsetWidth;
-        if (gallery.scrollLeft >= scrollWidth / 2) {
-            gallery.scrollLeft -= scrollWidth / 2;
-        } else if (gallery.scrollLeft < 0) {
-            gallery.scrollLeft += scrollWidth / 2;
-        }
-
-        // Update center image
-        const leftEdge = gallery.scrollLeft;
-        const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
-        const adjustedIndex = (centerIndex + images.length) % images.length;
-        const currentImage = images[adjustedIndex];
-
-        if (currentImage) {
-            centerImage.src = currentImage.src;
-            centerImage.style.display = 'block';
-        }
+    const scrollWidth = gallery.scrollWidth;
+    const containerWidth = gallery.offsetWidth;
+    if (gallery.scrollLeft >= scrollWidth / 2) {
+        gallery.scrollLeft -= scrollWidth / 2;
+    } else if (gallery.scrollLeft < 0) {
+        gallery.scrollLeft += scrollWidth / 2;
     }
 
-    function handleScroll(event) {
-        const now = Date.now();
-        if (now - lastScrollTime < throttleDelay) return;
-        lastScrollTime = now;
+    const leftEdge = gallery.scrollLeft;
+    const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
+    const adjustedIndex = (centerIndex + images.length) % images.length;
+    const currentImage = images[adjustedIndex];
 
+    if (currentImage) {
+        centerImage.src = currentImage.src;
+        centerImage.style.display = 'block';
+    }
+}
+
+function handleScroll(event) {
+    const now = Date.now();
+    if (now - lastScrollTime < throttleDelay) return;
+    lastScrollTime = now;
+
+    event.preventDefault();
+    scrollSpeed += (event.deltaY || event.deltaX) * 0.05;
+
+    if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(smoothScroll);
+    }
+}
+
+function handleTouchStart(event) {
+    if (event.touches.length > 0) {
+        this.startX = event.touches[0].pageX;
         event.preventDefault();
-        scrollSpeed += (event.deltaY || event.deltaX) * 0.05; // Slower sensitivity for better control
+    }
+}
+
+function handleTouchMove(event) {
+    if (event.touches.length > 0) {
+        const touch = event.touches[0];
+        const deltaX = touch.pageX - this.startX;
+        this.startX = touch.pageX;
+        scrollSpeed += deltaX * 0.1;
+        event.preventDefault();
 
         if (!isScrolling) {
             isScrolling = true;
             requestAnimationFrame(smoothScroll);
         }
     }
+}
 
-    function handleTouchStart(event) {
-        if (event.touches.length > 0) {
-            this.startX = event.touches[0].pageX;
-            event.preventDefault();
-        }
+function handleArrowKeys(event) {
+    if (event.key === 'ArrowLeft') {
+        scrollSpeed = -5;
+    } else if (event.key === 'ArrowRight') {
+        scrollSpeed = 5;
     }
 
-    function handleTouchMove(event) {
-        if (event.touches.length > 0) {
-            const touch = event.touches[0];
-            const deltaX = touch.pageX - this.startX;
-            this.startX = touch.pageX;
-            scrollSpeed += deltaX * 0.1; // Adjust touch sensitivity for smooth scrolling
-            event.preventDefault();
-
-            if (!isScrolling) {
-                isScrolling = true;
-                requestAnimationFrame(smoothScroll);
-            }
-        }
+    if (!isScrolling) {
+        isScrolling = true;
+        requestAnimationFrame(smoothScroll);
     }
+}
 
-    function handleArrowKeys(event) {
-        if (event.key === 'ArrowLeft') {
-            scrollSpeed = -5; // Adjust for left arrow
-        } else if (event.key === 'ArrowRight') {
-            scrollSpeed = 5; // Adjust for right arrow
-        }
+cloneImages();
 
-        if (!isScrolling) {
-            isScrolling = true;
-            requestAnimationFrame(smoothScroll);
-        }
+window.addEventListener('load', () => {
+    document.addEventListener('wheel', handleScroll, { passive: false });
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('keydown', handleArrowKeys);
+});
+
+function initializeCenterImage() {
+    const containerWidth = gallery.offsetWidth;
+    const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
+    const adjustedIndex = (initialIndex + images.length) % images.length;
+    const initialImage = images[adjustedIndex];
+
+    if (initialImage) {
+        centerImage.src = initialImage.src;
+        centerImage.style.display = 'block';
     }
+}
 
-    cloneImages();
+initializeCenterImage();
 
-    // Add event listeners
-    window.addEventListener('load', () => {
-        document.addEventListener('wheel', handleScroll, { passive: false });
-        document.addEventListener('touchstart', handleTouchStart, { passive: false });
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-        document.addEventListener('keydown', handleArrowKeys); // For keyboard navigation
-    });
-
-    function initializeCenterImage() {
-        const containerWidth = gallery.offsetWidth;
-        const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
-        const adjustedIndex = (initialIndex + images.length) % images.length;
-        const initialImage = images[adjustedIndex];
-
-        if (initialImage) {
-            centerImage.src = initialImage.src;
-            centerImage.style.display = 'block';
-        }
-    }
-
-    initializeCenterImage();
 </script>
 
 </body>

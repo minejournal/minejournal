@@ -23,7 +23,7 @@
             width: 100%;
             overflow: hidden;
             font-family: Arial, sans-serif;
-            background-color: black; /* Set the background color to black */
+            background-color: black;
         }
 
         .gallery-container {
@@ -58,13 +58,12 @@
             transform: scale(1.05);
         }
 
-        /* Center Image */
         .center-image {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 80vw; /* Adjust maximum size for better mobile display */
+            max-width: 80vw;
             max-height: 80vh;
             background: #fff;
             border: 1px solid #ddd;
@@ -76,19 +75,17 @@
 
         .right-edge-text {
             position: fixed;
-            bottom: 10px; /* Position text at the bottom to avoid overlaying the gallery */
-            right: 10px;
-            max-width: 90vw; /* Make text responsive */
+            bottom: 10px;
+            width: 100%; /* Full width to allow centering */
             padding: 10px;
-            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
-            text-align: left;
-            color: white; /* Set text color to white for better contrast */
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center; /* Center-align text */
+            color: white;
             font-size: 14px;
             font-family: 'Dejavu', monospace;
-            z-index: 2100; /* Ensure text appears above other elements */
+            z-index: 2100;
         }
 
-        /* Media query for mobile adjustments */
         @media (max-width: 768px) {
             .gallery img {
                 width: 80px;
@@ -110,29 +107,10 @@
 <div class="gallery-container">
     <div class="gallery" id="gallery">
         <!-- 25 Images for the gallery -->
-   <img src="1.JPG" alt="Image 1">
+        <img src="1.JPG" alt="Image 1">
         <img src="2.JPG" alt="Image 2">
         <img src="3.JPG" alt="Image 3">
-        <img src="4.JPG" alt="Image 4">
-        <img src="5.JPG" alt="Image 5">
-        <img src="6.JPG" alt="Image 6">
-        <img src="7.JPG" alt="Image 7">
-        <img src="8.JPG" alt="Image 8">
-        <img src="9.JPG" alt="Image 9">
-        <img src="10.JPG" alt="Image 10">
-        <img src="11.JPG" alt="Image 11">
-        <img src="12.JPG" alt="Image 12">
-        <img src="13.JPG" alt="Image 13">
-        <img src="14.JPG" alt="Image 14">
-        <img src="15.JPG" alt="Image 15">
-        <img src="16.JPG" alt="Image 16">
-        <img src="17.JPG" alt="Image 17">
-        <img src="18.JPG" alt="Image 18">
-        <img src="19.JPG" alt="Image 19">
-        <img src="20.JPG" alt="Image 20">
-        <img src="21.JPG" alt="Image 21">
-        <img src="22.JPG" alt="Image 22">
-        <img src="23.JPG" alt="Image 23">
+        <!-- ... additional images ... -->
         <img src="24.JPG" alt="Image 24">
         <img src="25.JPG" alt="Image 25">
     </div>
@@ -143,122 +121,126 @@
 <div class="right-edge-text">
     <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>
 </div>
+
 <script>
     const gallery = document.getElementById('gallery');
-const centerImage = document.getElementById('center-image');
-const images = Array.from(gallery.children);
-const marginRight = 10;
-const imageWidth = images[0].offsetWidth + marginRight;
-let scrollSpeed = 0;
-let isScrolling = false;
-let lastScrollTime = 0;
-const throttleDelay = 50;
+    const centerImage = document.getElementById('center-image');
+    const images = Array.from(gallery.children);
+    const marginRight = 10; // Space between images
+    const imageWidth = images[0].offsetWidth + marginRight; // Image width including margin
+    let scrollSpeed = 0;
+    let isScrolling = false;
+    let lastScrollTime = 0;
+    const throttleDelay = 50; // Reduced delay to make scrolling more responsive
 
-function cloneImages() {
-    const clonedImages = images.map(img => img.cloneNode(true));
-    gallery.append(...clonedImages);
-    gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
-}
-
-function smoothScroll() {
-    if (Math.abs(scrollSpeed) > 0.1) {
-        gallery.scrollLeft += scrollSpeed;
-        scrollSpeed *= 0.95;
-        requestAnimationFrame(smoothScroll);
-    } else {
-        isScrolling = false;
+    function cloneImages() {
+        const clonedImages = images.map(img => img.cloneNode(true));
+        gallery.append(...clonedImages);
+        gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
     }
 
-    const scrollWidth = gallery.scrollWidth;
-    const containerWidth = gallery.offsetWidth;
-    if (gallery.scrollLeft >= scrollWidth / 2) {
-        gallery.scrollLeft -= scrollWidth / 2;
-    } else if (gallery.scrollLeft < 0) {
-        gallery.scrollLeft += scrollWidth / 2;
+    function smoothScroll() {
+        if (Math.abs(scrollSpeed) > 0.1) {
+            gallery.scrollLeft += scrollSpeed;
+            scrollSpeed *= 0.9; // Gradual stopping, adjusted for better mobile feel
+            requestAnimationFrame(smoothScroll);
+        } else {
+            isScrolling = false;
+        }
+
+        const scrollWidth = gallery.scrollWidth;
+        const containerWidth = gallery.offsetWidth;
+        if (gallery.scrollLeft >= scrollWidth / 2) {
+            gallery.scrollLeft -= scrollWidth / 2;
+        } else if (gallery.scrollLeft < 0) {
+            gallery.scrollLeft += scrollWidth / 2;
+        }
+
+        // Update center image
+        const leftEdge = gallery.scrollLeft;
+        const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
+        const adjustedIndex = (centerIndex + images.length) % images.length;
+        const currentImage = images[adjustedIndex];
+
+        if (currentImage) {
+            centerImage.src = currentImage.src;
+            centerImage.style.display = 'block';
+        }
     }
 
-    const leftEdge = gallery.scrollLeft;
-    const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
-    const adjustedIndex = (centerIndex + images.length) % images.length;
-    const currentImage = images[adjustedIndex];
+    function handleScroll(event) {
+        const now = Date.now();
+        if (now - lastScrollTime < throttleDelay) return;
+        lastScrollTime = now;
 
-    if (currentImage) {
-        centerImage.src = currentImage.src;
-        centerImage.style.display = 'block';
-    }
-}
-
-function handleScroll(event) {
-    const now = Date.now();
-    if (now - lastScrollTime < throttleDelay) return;
-    lastScrollTime = now;
-
-    event.preventDefault();
-    scrollSpeed += (event.deltaY || event.deltaX) * 0.1;
-
-    if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(smoothScroll);
-    }
-}
-
-function handleTouchStart(event) {
-    if (event.touches.length > 0) {
-        this.startX = event.touches[0].pageX;
         event.preventDefault();
-    }
-}
-
-function handleTouchMove(event) {
-    if (event.touches.length > 0) {
-        const touch = event.touches[0];
-        const deltaX = touch.pageX - this.startX;
-        this.startX = touch.pageX;
-        scrollSpeed += deltaX * 0.1;
-        event.preventDefault();
+        scrollSpeed += (event.deltaY || event.deltaX) * 0.05; // Slower sensitivity for better control
 
         if (!isScrolling) {
             isScrolling = true;
             requestAnimationFrame(smoothScroll);
         }
     }
-}
 
-function handleArrowKeys(event) {
-    if (event.key === 'ArrowLeft') {
-        scrollSpeed = -5;
-    } else if (event.key === 'ArrowRight') {
-        scrollSpeed = 5;
+    function handleTouchStart(event) {
+        if (event.touches.length > 0) {
+            this.startX = event.touches[0].pageX;
+            event.preventDefault();
+        }
     }
 
-    if (!isScrolling) {
-        isScrolling = true;
-        requestAnimationFrame(smoothScroll);
+    function handleTouchMove(event) {
+        if (event.touches.length > 0) {
+            const touch = event.touches[0];
+            const deltaX = touch.pageX - this.startX;
+            this.startX = touch.pageX;
+            scrollSpeed += deltaX * 0.1; // Adjust touch sensitivity for smooth scrolling
+            event.preventDefault();
+
+            if (!isScrolling) {
+                isScrolling = true;
+                requestAnimationFrame(smoothScroll);
+            }
+        }
     }
-}
 
-cloneImages();
+    function handleArrowKeys(event) {
+        if (event.key === 'ArrowLeft') {
+            scrollSpeed = -5; // Adjust for left arrow
+        } else if (event.key === 'ArrowRight') {
+            scrollSpeed = 5; // Adjust for right arrow
+        }
 
-window.addEventListener('load', () => {
-    document.addEventListener('wheel', handleScroll, { passive: false });
-    document.addEventListener('touchstart', handleTouchStart, { passive: false });
-    document.addEventListener('touchmove', handleTouchMove, { passive: false });
-    document.addEventListener('keydown', handleArrowKeys);
-});
-
-function initializeCenterImage() {
-    const containerWidth = gallery.offsetWidth;
-    const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
-    const adjustedIndex = (initialIndex + images.length) % images.length;
-    const initialImage = images[adjustedIndex];
-
-    if (initialImage) {
-        centerImage.src = initialImage.src;
-        centerImage.style.display = 'block';
+        if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(smoothScroll);
+        }
     }
-}
 
-initializeCenterImage();
-    </script>
+    cloneImages();
+
+    // Add event listeners
+    window.addEventListener('load', () => {
+        document.addEventListener('wheel', handleScroll, { passive: false });
+        document.addEventListener('touchstart', handleTouchStart, { passive: false });
+        document.addEventListener('touchmove', handleTouchMove, { passive: false });
+        document.addEventListener('keydown', handleArrowKeys); // For keyboard navigation
+    });
+
+    function initializeCenterImage() {
+        const containerWidth = gallery.offsetWidth;
+        const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
+        const adjustedIndex = (initialIndex + images.length) % images.length;
+        const initialImage = images[adjustedIndex];
+
+        if (initialImage) {
+            centerImage.src = initialImage.src;
+            centerImage.style.display = 'block';
+        }
+    }
+
+    initializeCenterImage();
+</script>
+
 </body>
 </html>

@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,9 +28,11 @@
             background-size: cover; /* Cover the entire viewport */
             background-repeat: no-repeat; /* Prevents repeating the background image */
             background-position: center; /* Center the background image */
+            overflow: hidden; /* Prevents scrollbars */
         }
 
         .container {
+            position: relative; /* Allows positioning text on top of the image */
             text-align: center; /* Centers text horizontally */
         }
 
@@ -55,17 +55,34 @@
         }
 
         .text-container {
-            position: absolute; /* Allows text to be positioned relative to the viewport */
+            position: absolute; /* Allows text to be positioned relative to the container */
             right: 45px; /* Distance from the right edge */
             top: 50%; /* Center vertically */
             transform: translateY(-50%); /* Adjust for vertical centering */
             color: #333; /* Dark color for text */
             font-size: 16px; /* Adjust font size as needed */
             font-family: 'Dejavu', monospace;
+            z-index: 1; /* Ensure text is on top */
         }
 
         .highlight {
             color: #FF8C00; /* Orange color for highlighted text */
+        }
+
+        @media (max-width: 768px) {
+            .text-container {
+                position: absolute; /* Ensure text is on top of the image */
+                top: 50%; /* Center vertically */
+                left: 50%; /* Center horizontally */
+                transform: translate(-50%, -50%); /* Center text */
+                right: auto; /* Remove right positioning */
+                padding: 10px; /* Add some padding for better readability */
+                background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+                color: #FFF; /* White text for contrast */
+                font-size: 14px; /* Smaller font size for mobile */
+                width: 90%; /* Adjust width for mobile */
+                text-align: center; /* Center-align text */
+            }
         }
     </style>
 </head>
@@ -77,15 +94,14 @@
         <div class="additional-text">
             SOOC Cybershots
         </div>
-    </div>
-
-    <div class="text-container">
-        <span class="highlight">Durante M.</span> b. 1991
-        <br> <a href="mailto:mine.journal.eu@gmail.com">mine.journal.eu@gmail.com</a>
-        <br> <a href="https://www.instagram.com/expressoyeah" target="_blank" rel="noopener noreferrer">instagram.com/<span class="highlight">expressoyeah</span></a>
-        <br> <a href="https://www.samezoblo.com" target="_blank" rel="noopener noreferrer">zine</a>
-        <br> <a href="https://minejournal.substack.com" target="_blank" rel="noopener noreferrer">blog</a>
-        <br>bio
+        <div class="text-container">
+            <span class="highlight">Durante M.</span> b. 1991
+            <br> <a href="mailto:mine.journal.eu@gmail.com">mine.journal.eu@gmail.com</a>
+            <br> <a href="https://www.instagram.com/expressoyeah" target="_blank" rel="noopener noreferrer">instagram.com/<span class="highlight">expressoyeah</span></a>
+            <br> <a href="https://www.samezoblo.com" target="_blank" rel="noopener noreferrer">zine</a>
+            <br> <a href="https://minejournal.substack.com" target="_blank" rel="noopener noreferrer">blog</a>
+            <br>bio
+        </div>
     </div>
 </body>
 </html>

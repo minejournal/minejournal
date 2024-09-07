@@ -21,23 +21,16 @@
         html, body {
             height: 100%;
             width: 100%;
-            overflow: hidden; /* Prevents default scrollbars */
+            overflow: hidden;
             font-family: Arial, sans-serif;
-        }
-
-        body {
-            position: relative;
-            background-image: url('SFONDO.webp'); /* Background image for the entire page */
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: black; /* Set the background color to black */
         }
 
         .gallery-container {
             position: fixed;
-            top: 1%; /* Positioned close to the top */
+            top: 1%;
             width: 100vw;
-            height: 12vh; /* Adjust the height of the gallery */
+            height: 12vh;
             overflow: hidden;
             display: flex;
             align-items: center;
@@ -46,18 +39,18 @@
 
         .gallery {
             display: flex;
-            gap: 10px; /* Space between images */
-            overflow: hidden; /* Hides scrollbar */
-            white-space: nowrap; /* Ensures images stay in a single line */
-            will-change: scroll-position; /* Optimizes scrolling performance */
+            gap: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            will-change: scroll-position;
         }
 
         .gallery img {
-            width: 100px; /* 3:2 aspect ratio */
+            width: 100px;
             height: 66px;
             object-fit: cover;
             cursor: pointer;
-            transition: transform 0.3s ease; /* Scale effect on hover */
+            transition: transform 0.3s ease;
             margin-right: 10px;
         }
 
@@ -71,28 +64,44 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            max-width: 50vw; /* Maximum width relative to viewport width */
-            max-height: 95vh; /* Maximum height relative to viewport height */
-            background: #fff; /* Background color */
-            border: 1px solid #ddd; /* Border color */
-            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2); /* Adjusted shadow for better performance */
+            max-width: 80vw; /* Adjust maximum size for better mobile display */
+            max-height: 80vh;
+            background: #fff;
+            border: 1px solid #ddd;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
             display: none;
             z-index: 2000;
-            object-fit: contain; /* Ensures aspect ratio is maintained */
+            object-fit: contain;
         }
 
         .right-edge-text {
             position: fixed;
-            top: 47%;
-            right: 50px;
-            transform: translateY(-50%);
-            max-width: 20vw;
+            bottom: 10px; /* Position text at the bottom to avoid overlaying the gallery */
+            right: 10px;
+            max-width: 90vw; /* Make text responsive */
             padding: 10px;
-            background: transparent;
+            background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
             text-align: left;
-            color: black;
-            font-size: 16px;
+            color: white; /* Set text color to white for better contrast */
+            font-size: 14px;
             font-family: 'Dejavu', monospace;
+            z-index: 2100; /* Ensure text appears above other elements */
+        }
+
+        /* Media query for mobile adjustments */
+        @media (max-width: 768px) {
+            .gallery img {
+                width: 80px;
+                height: 52px;
+            }
+            .center-image {
+                max-width: 90vw;
+                max-height: 70vh;
+            }
+            .right-edge-text {
+                font-size: 12px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -100,8 +109,8 @@
 
 <div class="gallery-container">
     <div class="gallery" id="gallery">
-        <!-- 25 Images for the gallery with 3:2 aspect ratio -->
-        <img src="1.JPG" alt="Image 1">
+        <!-- 25 Images for the gallery -->
+   <img src="1.JPG" alt="Image 1">
         <img src="2.JPG" alt="Image 2">
         <img src="3.JPG" alt="Image 3">
         <img src="4.JPG" alt="Image 4">

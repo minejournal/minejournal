@@ -145,24 +145,27 @@
     let scrollSpeed = 0;
     let isScrolling = false;
     let lastScrollTime = 0;
-    const throttleDelay = 100; // milliseconds
+    const throttleDelay = 50; // milliseconds for smoother response
+    let touchStartX = 0;
 
+    // Clone images to enable seamless scrolling
     function cloneImages() {
         const clonedImages = images.map(img => img.cloneNode(true));
         gallery.append(...clonedImages);
         gallery.prepend(...clonedImages.map(img => img.cloneNode(true)));
     }
 
+    // Smooth scrolling function
     function smoothScroll() {
         if (Math.abs(scrollSpeed) > 0.1) {
             gallery.scrollLeft += scrollSpeed;
-            scrollSpeed *= 0.95; // Gradual stopping
+            scrollSpeed *= 0.9; // Gradual stopping
             requestAnimationFrame(smoothScroll);
         } else {
             isScrolling = false;
         }
 
-        // Continuous scrolling
+        // Loop scrolling
         const scrollWidth = gallery.scrollWidth;
         const containerWidth = gallery.offsetWidth;
         if (gallery.scrollLeft >= scrollWidth / 2) {
@@ -171,7 +174,7 @@
             gallery.scrollLeft += scrollWidth / 2;
         }
 
-        // Update center image
+        // Update the center image based on the scroll position
         const leftEdge = gallery.scrollLeft;
         const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
         const adjustedIndex = (centerIndex + images.length) % images.length;
@@ -183,6 +186,7 @@
         }
     }
 
+    // Handle mouse wheel scrolling
     function handleScroll(event) {
         const now = Date.now();
         if (now - lastScrollTime < throttleDelay) return;
@@ -197,16 +201,19 @@
         }
     }
 
-    function handleTouch(event) {
-        if (event.touches.length > 0) {
-            const touch = event.touches[0];
-            if (!this.startX) {
-                this.startX = touch.pageX;
-            }
-            const deltaX = touch.pageX - this.startX;
-            scrollSpeed += deltaX * 0.2; // Adjust sensitivity
-            this.startX = touch.pageX;
-            event.preventDefault();
+    // Handle touch gestures on mobile devices
+    function handleTouchStart(event) {
+        if (event.touches.length === 1) {
+            touchStartX = event.touches[0].pageX;
+        }
+    }
+
+    function handleTouchMove(event) {
+        if (event.touches.length === 1) {
+            const touchCurrentX = event.touches[0].pageX;
+            const deltaX = touchCurrentX - touchStartX;
+            touchStartX = touchCurrentX;
+            scrollSpeed += deltaX * 0.5; // Adjust sensitivity for touch
 
             if (!isScrolling) {
                 isScrolling = true;
@@ -215,11 +222,30 @@
         }
     }
 
-    cloneImages();
-    document.addEventListener('wheel', handleScroll, { passive: false });
-    document.addEventListener('touchstart', handleTouch, { passive: false });
-    document.addEventListener('touchmove', handleTouch, { passive: false });
+    // Handle keyboard arrow navigation for desktop
+    function handleArrowKeys(event) {
+        if (event.key === 'ArrowLeft') {
+            scrollSpeed -= 5; // Scroll left
+        } else if (event.key === 'ArrowRight') {
+            scrollSpeed += 5; // Scroll right
+        }
 
+        if (!isScrolling) {
+            isScrolling = true;
+            requestAnimationFrame(smoothScroll);
+        }
+    }
+
+    // Initialize the gallery
+    cloneImages();
+
+    // Event listeners
+    document.addEventListener('wheel', handleScroll, { passive: false });
+    document.addEventListener('touchstart', handleTouchStart, { passive: false });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('keydown', handleArrowKeys);
+
+    // Set the initial center image
     function initializeCenterImage() {
         const containerWidth = gallery.offsetWidth;
         const initialIndex = Math.floor((gallery.scrollLeft + containerWidth / 2) / imageWidth) % images.length;
@@ -234,6 +260,7 @@
 
     initializeCenterImage();
 </script>
+
 
 </body>
 </html>

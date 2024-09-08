@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        @font-face {
+            font-family: 'Dejavu';
+            src: url('Dejavu.ttf') format('truetype');
+        }
+
+        @font-face {
+            font-family: 'HandelGothic';
+            src: url('HandelGothic.ttf') format('truetype');
+        }
+
+        body {
+            margin: 0;
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Enables Flexbox layout */
+            justify-content: center; /* Centers content horizontally */
+            align-items: center; /* Centers content vertically */
+            perspective: 1000px;
+            background-color: #F3F2ED;
+            background-image: url(''); /* Add your image URL here */
+            background-size: cover; /* Cover the entire viewport */
+            background-repeat: no-repeat; /* Prevents repeating the background image */
+            background-position: center; /* Center the background image */
+        }
+
+        .container {
+            text-align: center; /* Centers text horizontally */
+            width: 100%;
+            height: 2000px; /* Adjust this height to see scrolling effect */
+            background-color: transparent;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+ 
+
+         img {
+            position: absolute; /* Position relative to the nearest positioned ancestor (body) */
+            top: 0;
+            right: 0;
+            width: 35mm; /* Width in millimeters */
+            height: 45mm; /* Height in millimeters */
+            max-width: none; /* Ensure the image size is exactly as specified */
+            transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transitions for effects */
+        }
+
+     
+
+        .additional-text {
+            margin-top: 20px; /* Space between the image and the text */
+            font-size: 16px; /* Match font size */
+            color: #333; /* Color of the additional text */
+            font-family: 'HandelGothic', monospace; /* Match font family */
+        }
+
+        .text-container {
+            position: absolute; /* Allows text to be positioned relative to the viewport */
+            left: 45px; /* Distance from the right edge */
+            top: 50%; /* Center vertically */
+            transform: translateY(-50%); /* Adjust for vertical centering */
+            color: #333; /* Dark color for text */
+            font-size: 14.5px; /* Adjust font size as needed */
+            font-family: 'Dejavu', monospace;
+        }
+.spaced-text {
+            word-spacing: 100px; /* Adjust the spacing between words */
+        }
+ .center-text {
+            text-align: center; /* Centers text horizontally within the element */
+        }
+
+        .highlight {
+            color: #FF8C00; /* Orange color for highlighted text */
+        }
+
+
+     a:link,
+        a:visited,
+        a:active {
+            color: black; /* Set the color you want for all states */
+            text-decoration: none; /* Remove the underline */
+        }
+  a:hover {
+            color: blue; /* Set the color you want on hover */
+        }
+    </style>
+</head>
+<body>
+       <img src="profilo.png" alt="profilo">
+
+
+    <div class="text-container">
+
+<b>Durante M.</b> 
+<br>
+b. 1991
+<br>
+Living and working in Tbilisi, Georgia.
+<br>
+<br>
+<b> Studies </b> 
+<br>
+2009 – 2012 Università di Bologna, B.A in Political Sciences
+<br><br>
+2012 - 2015 Università di Bologna, Master of International Studies
+<br><br>
+2017 - 2018 Universidad Autonoma Barcelona, Major in Book Publishing
+<br>
+<br>
+<b> Relevant Experience</b>
+<br>
+2021 - Ongoing.  Samezoblo Zine
+<br><br>
+2021 November - 2022 February. Time4pusteblume Panjara Art Residency. Tbilisi.
+<br>
+<br>
+2022 - February. Centre For Contemporary Art, Tbilisi. "What is happening in the streets of Tbilisi" Group Exhibition. 
+<br><br>
+2022 - April-June. Independent photo research and documentation on trash and waste management in Georgia, Turkey, Iraq, Greece, Italy.
+<br><br>
+2022 - July. Copenhagen Architecture Festival (CAFx) Film Mosaic 2022: Leave No One Behind” Fellowship.
+<br><br>
+2024 - May. Subsequence Community Space, Tbilisi. "Documentary photo Solo Exhibition “In Motion”
+<br>
+<br>
+2024 - ongoing. Series of Workshops on how to create a photo zine delivered in Xaraxura Publishing; Caucasus Cultural Exchange.
+<br>
+<br>
+2024 -July/September.  Ubani Research Prorgam "Nomonuments" in Collaboration with Museum of Transnational Art, Lubljiana, Slovenia.
+<br><br>
+<b> Curator </b>
+<br>
+Giovannino Gabadze
+<br>
+<br>
+<div class="center-text">
+<p class="spaced-text"> <a href="./index.html">./Back</a> <a href="./cybershots.html">./Portfolio </a></p>
+</div>
+</body>
+</html>

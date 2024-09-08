@@ -60,7 +60,7 @@
 
         .center-image {
             position: fixed;
-            top: 50%;
+            top: 45%;
             left: 50%;
             transform: translate(-50%, -50%);
             max-width: 45vw;
@@ -103,6 +103,18 @@
             font-size: 14px;
             font-family: 'Dejavu', monospace;
             z-index: 2100;
+        }
+     a {
+            color: white; /* Set the link color to white */
+            text-decoration: none; /* Remove underline */
+            background-color: transparent; /* Ensure background color doesn't affect visibility */
+        }
+
+        /* Optional: Add hover and focus states to ensure no color change */
+        a:hover,
+        a:focus {
+            color: blue; /* Ensure the color stays white on hover and focus */
+            text-decoration: none; /* Remove underline on hover and focus */
         }
 
   @media (max-width: 768px) {
@@ -168,7 +180,9 @@
 
 
 <div class="right-edge-text">
-    <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024</p>
+    <p>Samples of life and actions in the streets of the Republic of Georgia and Italy, 2024.
+<br><br><a href="./index.html">./main</a>
+</p>
 </div>
 
 <script>

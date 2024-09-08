@@ -188,14 +188,15 @@ function updateCenterImage() {
     const scrollWidth = gallery.scrollWidth;
     const containerWidth = gallery.offsetWidth;
 
-    // Handle infinite scrolling loop
+    // Adjust scroll position if it goes too far to the right
     if (gallery.scrollLeft >= scrollWidth / 2) {
         gallery.scrollLeft -= scrollWidth / 2;
-    } else if (gallery.scrollLeft < 0) {
+    } 
+    // Adjust scroll position if it goes too far to the left
+    else if (gallery.scrollLeft <= 0) {
         gallery.scrollLeft += scrollWidth / 2;
     }
 
-    // Update the center image based on the current scroll position
     const leftEdge = gallery.scrollLeft;
     const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
     const adjustedIndex = (centerIndex + images.length) % images.length;

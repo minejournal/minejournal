@@ -172,7 +172,7 @@
 </div>
 
 <script>
-    const gallery = document.getElementById('gallery');
+const gallery = document.getElementById('gallery');
 const centerImage = document.getElementById('center-image');
 const images = Array.from(gallery.children);
 const marginRight = 10; // Space between images
@@ -188,12 +188,14 @@ function updateCenterImage() {
     const scrollWidth = gallery.scrollWidth;
     const containerWidth = gallery.offsetWidth;
 
+    // Handle infinite scrolling loop
     if (gallery.scrollLeft >= scrollWidth / 2) {
         gallery.scrollLeft -= scrollWidth / 2;
     } else if (gallery.scrollLeft < 0) {
         gallery.scrollLeft += scrollWidth / 2;
     }
 
+    // Update the center image based on the current scroll position
     const leftEdge = gallery.scrollLeft;
     const centerIndex = Math.floor((leftEdge + containerWidth / 2) / imageWidth) % images.length;
     const adjustedIndex = (centerIndex + images.length) % images.length;
@@ -226,6 +228,13 @@ function handleTouchMove(event) {
     }
 }
 
+function handleMouseWheel(event) {
+    const delta = event.deltaY || event.deltaX;
+    gallery.scrollLeft += delta;
+    updateCenterImage();
+    event.preventDefault();
+}
+
 function handleScrollLeft() {
     gallery.scrollLeft -= imageWidth; // Scroll one image width to the left
     updateCenterImage();
@@ -236,12 +245,22 @@ function handleScrollRight() {
     updateCenterImage();
 }
 
+function handleArrowKeys(event) {
+    if (event.key === 'ArrowLeft') {
+        handleScrollLeft();
+    } else if (event.key === 'ArrowRight') {
+        handleScrollRight();
+    }
+}
+
 cloneImages();
 
 // Add event listeners
 window.addEventListener('load', () => {
     document.addEventListener('touchstart', handleTouchStart, { passive: false });
     document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('wheel', handleMouseWheel, { passive: false }); // For PC/Mac scrolling
+    document.addEventListener('keydown', handleArrowKeys); // For keyboard navigation
 
     document.getElementById('scroll-left').addEventListener('click', handleScrollLeft);
     document.getElementById('scroll-right').addEventListener('click', handleScrollRight);
@@ -260,6 +279,10 @@ function initializeCenterImage() {
 }
 
 initializeCenterImage();
+
+// Adjust center image on window resize
+window.addEventListener('resize', initializeCenterImage);
+
 </script>
 
 </body>
